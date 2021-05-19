@@ -1,5 +1,15 @@
 ﻿let userScore = 0;
 let computerScore = 0;
+
+/*Στο κελί [i,j] αποθηκεύονται οι φορές που ο χρήστης διάλεξε i αφότου είχε επιλέξει j*/
+let choices = [
+    [1, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1]
+];
+/* Η τελευταία επιλογή του χρήστη */
+let last_choice = "p";
+
 const userScore_span = document.getElementById("user-score");
 const computerScore_span = document.getElementById("computer-score");
 const scoreBoard_div = document.querySelector(".score-board");
@@ -8,10 +18,39 @@ const rock_img = document.getElementById("r");
 const paper_img = document.getElementById("p");
 const scissors_img = document.getElementById("s");
 
+function updateChoices(userChoice) {
+    let i;
+    let j;
+
+    if      (last_choice === "r") j = 0;
+    else if (last_choice === "p") j = 1;
+    else                          j = 2;
+
+    if      (userChoice === "r") i = 0;
+    else if (userChoice === "p") i = 1;
+    else                         i = 2;
+
+    choices[i][j]++;
+}
+
 function getComputerChoice() {
-    const choices = ['r', 'p', 's'];
-    const randomNumber = Math.floor(Math.random() * 3);
-    return choices[randomNumber];
+    const letters = ['r', 'p', 's'];
+    let j;
+
+    if (last_choice === "r") j = 0;
+    else if (last_choice === "p") j = 1;
+    else j = 2;
+
+    let timesUsedR = choices[0][j];
+    let timesUsedP = choices[1][j];
+    let timesUsedS = choices[2][j];
+    let sum = timesUsedP + timesUsedR + timesUsedS;
+
+    const randomNumber = Math.floor(Math.random() * sum);
+
+    if (randomNumber < timesUsedR) return letters[1];
+    else if (randomNumber < timesUsedP) return letters[2];
+    else  return letters[0];
 }
 
 function convertToWord(letter) {
@@ -75,6 +114,8 @@ function game(userChoice) {
             draw(userChoice, computerChoice);
             break;
     }
+    updateChoices(userChoice);
+    last_choice = userChoice;
 }
 
 function main() {
