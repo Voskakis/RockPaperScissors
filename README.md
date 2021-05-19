@@ -1,5 +1,5 @@
 # RockPaperScissors
-exercise on web development
+_exercise on web development_
 
 following instructions of youtube channel [FreeCodeCamp.org](https://www.youtube.com/watch?v=jaVNP3nIAv0 "link to video").
 
